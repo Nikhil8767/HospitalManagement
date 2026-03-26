@@ -1,32 +1,37 @@
 package com.example.HospitalManagement;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
-
 import com.example.HospitalManagement.Entity.Medication;
 import com.example.HospitalManagement.Repository.MedicationRepository;
 
-@DataJpaTest
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@SpringBootTest
 @ActiveProfiles("test")
-public class MedicationRepositoryTest {
+class MedicationRepositoryTest {
+
     @Autowired
     private MedicationRepository repository;
 
     @Test
-    void testSaveAndFind() {
-        Medication med = new Medication();
-        med.setCode(1);
-        med.setName("Paracetamol");
+    void testFindById_Exists() {
 
-        repository.save(med);
+        // use existing DB data (code = 1)
+        Optional<Medication> med = repository.findById(1);
 
-        Optional<Medication> found = repository.findById(1);
+        assertTrue(med.isPresent());
+        assertEquals("Procrastin-X", med.get().getName());
+    }
 
-        assertTrue(found.isPresent());
+    @Test
+    void testFindById_NotExists() {
+
+        Optional<Medication> med = repository.findById(9999);
+
+        assertFalse(med.isPresent());
     }
 }
