@@ -14,6 +14,8 @@ import com.example.HospitalManagement.Repository.MedicationRepository;
 @ActiveProfiles("test")
 class MedicationRepositoryTest {
 
+    // repository tests
+
     @Autowired
     private MedicationRepository repository;
 
