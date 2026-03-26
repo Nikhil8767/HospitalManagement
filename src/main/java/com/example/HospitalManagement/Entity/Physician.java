@@ -8,8 +8,8 @@ import java.util.List;
 @Entity
 @Table(name = "physician")
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
+//@NoArgsConstructor
+//@AllArgsConstructor
 public class Physician {
 
     @Id
