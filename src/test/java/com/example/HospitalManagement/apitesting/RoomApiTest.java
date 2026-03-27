@@ -38,23 +38,9 @@ public class RoomApiTest {
         testBlock = new Block(1, 100);
         blockRepository.save(testBlock);
 
-        Room room1 = new Room();
-        room1.setRoomNumber(101);
-        room1.setRoomType("ICU");
-        room1.setUnavailable(false);
-        room1.setBlock(testBlock);
-
-        Room room2 = new Room();
-        room2.setRoomNumber(102);
-        room2.setRoomType("General");
-        room2.setUnavailable(false);
-        room2.setBlock(testBlock);
-
-        Room room3 = new Room();
-        room3.setRoomNumber(103);
-        room3.setRoomType("ICU");
-        room3.setUnavailable(true);
-        room3.setBlock(testBlock);
+        Room room1 = new Room(101, "ICU", false, testBlock);
+        Room room2 = new Room(102, "General", false, testBlock);
+        Room room3 = new Room(103, "ICU", true, testBlock);
 
         roomRepository.saveAll(List.of(room1, room2, room3));
     }
