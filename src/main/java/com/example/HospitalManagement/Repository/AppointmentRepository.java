@@ -12,8 +12,7 @@ import org.springframework.data.rest.core.annotation.RestResource;
 
 import com.example.HospitalManagement.Entity.Appointment;
 
-@RepositoryRestResource(    path = "appointments",
-        excerptProjection = AppointmentProjection.class)
+@RepositoryRestResource(path = "appointments" , excerptProjection = AppointmentProjection.class)
 public interface AppointmentRepository extends JpaRepository<Appointment, Integer>{
 
     List<Appointment> findByStartoBetween(Date start, Date end);
