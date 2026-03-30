@@ -7,8 +7,9 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.validation.annotation.Validated;
 
 import com.example.HospitalManagement.Entity.Patient;
+import com.example.HospitalManagement.Projection.PatientProjection;
 
-@RepositoryRestResource(path = "patients")
+@RepositoryRestResource(path = "patients", excerptProjection = PatientProjection.class)
 @Validated
 public interface PatientRepository extends JpaRepository<Patient, Integer>{
 

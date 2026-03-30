@@ -12,8 +12,6 @@ import com.example.HospitalManagement.Entity.Physician;
 import com.example.HospitalManagement.Repository.PhysicianRepository;
 
 import jakarta.transaction.Transactional;
-
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -40,11 +38,6 @@ public class PatientApiTest {
         physicianRepository.save(pcp);
     }
 
-    // @AfterEach
-    // void deletePhysician(){
-    //     physicianRepository.deleteById(100);
-    // }
-
     //pagination test
     @Test
     void testGetAllPatients_PaginationSuccess() throws Exception{
@@ -62,10 +55,17 @@ public class PatientApiTest {
 
     //get all patients
     @Test
-    void testGetAllPatients_DataExists() throws Exception{
-        mockMvc.perform(get("/patients"))
+    void testGetAllPatients_WithProjection_ReturnsProjectedFields() throws Exception {
+    mockMvc.perform(get("/patients?projection=patientSummary"))
+        .andDo(print())
         .andExpect(status().isOk())
-        .andExpect(jsonPath("$._embedded.patients").exists());
+        .andExpect(jsonPath("$._embedded.patients[0].name").exists())
+        .andExpect(jsonPath("$._embedded.patients[0].address").exists())
+        .andExpect(jsonPath("$._embedded.patients[0].phone").exists())
+        .andExpect(jsonPath("$._embedded.patients[0].pcpName").exists())
+        // ✅ SSN and insuranceID should NOT be present
+        .andExpect(jsonPath("$._embedded.patients[0].ssn").doesNotExist())
+        .andExpect(jsonPath("$._embedded.patients[0].insuranceID").doesNotExist());
     }
 
     @Test
